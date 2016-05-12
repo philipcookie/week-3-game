@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>My First Function</title>
+	<link rel="stylesheet" type="text/css" href="">
+</head>
+<body>
+
+	<h1> 90s Grunge Hangman</h1>
+
+	<div class = "box">
+	</div>
+
+	
+	<div class = "box">
+	 <h1 id ="wordToGuess"> Word to Guess</h1>
+	</div>
+
+	<div class = "box">
+	 <h1> </h1>
+	</div>
+
+	<div class = "box">
+	 <h1> Wrong Guesses: <span id = "wrongGuesses"></span></h1>
+	</div>
+
+	<div class = "box">
+	<h1> Guesses Left: <span id = "guessesLeft"></span> </h1>
+	</div>
+
+	<div class = "box">
+	 <h1> Win Counter: <span id ="winCounter"> </span> </h1>
+	</div>
+
+	<div class = "box">
+	 <h1> Loss Counter: <span id ="lossCounter"> </span> </h1>
+	</div>
+
+
+	<script>
+	// defining global variables
+	// ================================================================================
+	// Creates an array based on a theme of 90s grunge bands
+		var grungeBands = ["pearljam", "nirvana", "stp", "aliceinchains"];
+		var targetWord = "";
+		var grungeCharsArray = [];
+		var wrongLetters = [];
+		var blanksAndLetters = [];
+		var guessesLeft = 9;
+		var winCounter = 0;
+		var lossCounter = 0;
+
+	// Defining Functions
+	// ================================================================================
+	function setup() {
+		
+		// code that will randomly select a random element in an array
+		var targetWord = grungeBands[Math.floor(Math.random()*grungeBands.length)];
+
+
+		grungeCharsArray = targetWord.split("");
+			//console.log(grungeCharsArray);
+		for (var j = 0; j < targetWord.length; j++) {
+			blanksAndLetters.push("_");
+		}
+			document.getElementById('wordToGuess').innerHTML = blanksAndLetters.join(" ");
+		};
+
+	function checkLetter(letter) {
+		console.log(letter);
+		var isInWord = false;
+		
+		for(var i = 0; i < grungeCharsArray.length; i++)
+		{
+			if(letter == grungeCharsArray[i]) {
+				isInWord = true;
+				//var a = grungeCharsArray.indexOf(letter); // finds index of letter in array
+				blanksAndLetters.splice(i, 1, letter);
+			}
+		}
+		// If Letter is in word
+		if( isInWord ) {
+			// var a = grungeCharsArray.indexOf(letter); // finds index of letter in array
+			// blanksAndLetters.splice(a, 1, letter);
+			//console.log(a);
+			document.getElementById('wordToGuess').innerHTML = blanksAndLetters.join(" "); // NEED TO PRINT THE LETTER THAT WAS GUESSED
+
+		} else {
+			guessesLeft--; // reduces the amount of guesses
+			//console.log(guessesLeft);
+			wrongLetters.push(letter); //pushes into the Wrong letters array
+			//console.log(wrongLetters);
+			document.getElementById('guessesLeft').innerHTML = guessesLeft;
+			document.getElementById('wrongGuesses').innerHTML = wrongLetters;
+		}
+	}
+
+
+// DEFINING PROGRAMS 
+// ================================================================================
+	setup();
+	
+	// function to collect user input guess and compare to band
+document.onkeyup = function(event) {
+		var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+		// console.log(userGuess);
+		checkLetter(userGuess);
+	};
+	
+
+	</script>
+	
+</body>
+</html>
